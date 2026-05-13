@@ -28,4 +28,10 @@ jobs:
       
       - name: list
         run:
-          ls -la docs
+          ls -la dist
+
+      - name: move
+        run:
+          mkdir docs
+          cp dist/* ./docs
+          

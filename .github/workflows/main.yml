@@ -25,3 +25,7 @@ jobs:
       - name: build
         run: |
           npm run build --output-path=docs
+      
+      - name: list
+        run:
+          ls -la docs

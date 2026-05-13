@@ -32,5 +32,5 @@ jobs:
 
       - name: move
         run:
-          cp dist/* ./docs
+          cp -r dist/* ./docs
           

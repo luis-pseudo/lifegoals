@@ -4,50 +4,32 @@ on:
   push:
     branches: [ master ]
 
-  pull_request:
-    branches: [ master ]
-
 jobs:
   angular_deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-      - name: Use Node.js 20.x
-        uses: actions/setup-node@v1
+      - name: Use Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: 20.x
+          node-version: 20
 
-      - name: npm install
+      - name: Install dependencies
         run: npm ci
 
-      - name: build
-        run: |
-          npm run build --output-path=docs
-      
-      - name: list
-        run:
-          ls -la dist
+      - name: Build Angular
+        run: npm run build
 
-      - name: move
-        run:
-          cp -r dist/* ./docs
-          
-      - name: docker login
-        env:
-          DOCKER_USER: ${{secrets.DOCKER_USER}}
-          DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
-        run: |
-          docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-          
-      - name: Download and run the Docker base image
-        run: docker run -d --name http_base httpd
+      - name: Verify dist
+        run: ls -la dist
 
-      - name: copy model to the Docker image
-        run: docker cp docs/. http_base:/usr/local/apache2/htdocs/
+      - name: Docker Login
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USER }}" --password-stdin
 
-      - name: Build the custom Docker image
-        run: docker commit --change "ENV MODEL_NAME http_base" http_base ${{secrets.DOCKER_USER}}/lifegoals:latest
-      - name: Docker Push
-        run: docker push ${{secrets.DOCKER_USER}}/lifegoals:latest
+      - name: Build Docker image
+        run: docker build -t ${{ secrets.DOCKER_USER }}/lifegoals:latest .
+
+      - name: Push Docker image
+        run: docker push ${{ secrets.DOCKER_USER }}/lifegoals:latest

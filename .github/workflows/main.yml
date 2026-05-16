@@ -34,3 +34,20 @@ jobs:
         run:
           cp -r dist/* ./docs
           
+      - name: docker login
+        env:
+          DOCKER_USER: ${{secrets.lpseudo}}
+          DOCKER_PASSWORD: ${{secrets.teleios69}}
+        run: |
+          docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+          
+      - name: Download and run the Docker base image
+        run: docker run -d --name http_base httpd
+
+      - name: copy model to the Docker image
+        run: docker cp docs/. http_base:/usr/local/apache2/htdocs/
+
+      - name: Build the custom Docker image
+        run: docker commit --change "ENV MODEL_NAME http_base" http_base ${{secrets.lpseudo}}/mycv:${{ github.sha }}
+      - name: Docker Push
+        run: docker push ${{secrets.lpseudo}}/mycv:${{ github.sha }}

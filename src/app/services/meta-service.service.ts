@@ -23,10 +23,12 @@ export class MetaService {
   private readonly baseUrl = `https://firestore.googleapis.com/v1/projects/${this.projectId}/databases/(default)/documents/${this.collectionPath}`;
 
   getMetas(): Observable<Meta[]> {
+    this.assertFirebaseConfig();
     return from(this.fetchMetas());
   }
 
   agregarMeta(meta: Meta): Promise<string> {
+    this.assertFirebaseConfig();
     const payload = {
       fields: this.toFirestoreFields({
         ...meta,
@@ -52,6 +54,7 @@ export class MetaService {
   }
 
   eliminarMeta(id: string): Promise<void> {
+    this.assertFirebaseConfig();
     return fetch(`${this.baseUrl}/${id}?key=${this.apiKey}`, {
       method: 'DELETE'
     })
@@ -112,5 +115,11 @@ export class MetaService {
     }
 
     return name.split('/').pop() ?? '';
+  }
+
+  private assertFirebaseConfig(): void {
+    if (!this.projectId || !this.apiKey) {
+      throw new Error('Falta configurar Firebase en los archivos de environment.');
+    }
   }
 }

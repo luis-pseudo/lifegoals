@@ -36,8 +36,8 @@ jobs:
           
       - name: docker login
         env:
-          DOCKER_USER: ${{secrets.lpseudo}}
-          DOCKER_PASSWORD: ${{secrets.teleios69}}
+          DOCKER_USER: ${{secrets.DOCKER_USER}}
+          DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
         run: |
           docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
           
@@ -48,6 +48,6 @@ jobs:
         run: docker cp docs/. http_base:/usr/local/apache2/htdocs/
 
       - name: Build the custom Docker image
-        run: docker commit --change "ENV MODEL_NAME http_base" http_base ${{secrets.lpseudo}}/mycv:${{ github.sha }}
+        run: docker commit --change "ENV MODEL_NAME http_base" http_base ${{secrets.DOCKER_USER}}/mycv:${{ github.sha }}
       - name: Docker Push
-        run: docker push ${{secrets.lpseudo}}/mycv:${{ github.sha }}
+        run: docker push ${{secrets.DOCKER_USER}}/mycv:${{ github.sha }}

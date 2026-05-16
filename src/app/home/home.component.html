@@ -1,1 +1,94 @@
-<p>home works!</p>
+<div class="contenedor-home">
+  <h1>Mis Metas</h1>
+
+  <!-- Mensaje de estado -->
+  <div *ngIf="mensaje" class="mensaje" [ngClass]="mensaje.includes('Error') ? 'error' : 'exito'">
+    {{ mensaje }}
+  </div>
+
+  <!-- Botón para mostrar/ocultar formulario -->
+  <button (click)="toggleFormulario()" class="btn btn-agregar" [disabled]="cargando">
+    {{ mostrarFormulario ? 'Cancelar' : 'Agregar Nueva Meta' }}
+  </button>
+
+  <!-- Formulario para agregar meta -->
+  <div *ngIf="mostrarFormulario" class="formulario-meta">
+    <h2>Nueva Meta</h2>
+    
+    <div class="form-grupo">
+      <label>Título:</label>
+      <input 
+        type="text" 
+        [(ngModel)]="nuevaMeta.titulo" 
+        placeholder="Ingrese el título de la meta"
+        [disabled]="cargando"
+      />
+    </div>
+
+    <div class="form-grupo">
+      <label>Descripción:</label>
+      <textarea 
+        [(ngModel)]="nuevaMeta.descripcion" 
+        placeholder="Ingrese la descripción (opcional)"
+        rows="3"
+        [disabled]="cargando"
+      ></textarea>
+    </div>
+
+    <div class="form-fila">
+      <div class="form-grupo">
+        <label>Estado:</label>
+        <select [(ngModel)]="nuevaMeta.estado" [disabled]="cargando">
+          <option value="pendiente">Pendiente</option>
+          <option value="en progreso">En Progreso</option>
+          <option value="completada">Completada</option>
+        </select>
+      </div>
+
+      <div class="form-grupo">
+        <label>Prioridad:</label>
+        <select [(ngModel)]="nuevaMeta.prioridad" [disabled]="cargando">
+          <option value="baja">Baja</option>
+          <option value="media">Media</option>
+          <option value="alta">Alta</option>
+        </select>
+      </div>
+    </div>
+
+    <button (click)="agregarMeta()" class="btn btn-guardar" [disabled]="cargando">
+      {{ cargando ? 'Guardando...' : 'Guardar Meta' }}
+    </button>
+  </div>
+
+  <!-- Lista de metas -->
+  <div class="lista-metas">
+    <div *ngIf="cargando && metas.length === 0" class="estado">
+      Cargando metas...
+    </div>
+
+    <div *ngIf="!cargando && metas.length === 0" class="estado">
+      No hay metas. ¡Crea tu primera meta!
+    </div>
+
+    <div *ngFor="let meta of metas" class="tarjeta-meta" [ngClass]="'prioridad-' + meta.prioridad">
+      <div class="meta-encabezado">
+        <h3>{{ meta.titulo }}</h3>
+        <span class="estado-badge" [ngClass]="'estado-' + meta.estado">{{ meta.estado }}</span>
+      </div>
+
+      <p class="descripcion" *ngIf="meta.descripcion">{{ meta.descripcion }}</p>
+
+      <div class="meta-footer">
+        <span class="prioridad">Prioridad: <strong>{{ meta.prioridad }}</strong></span>
+        <button 
+          (click)="eliminarMeta(meta.id)" 
+          class="btn btn-eliminar"
+          [disabled]="cargando"
+          title="Eliminar meta"
+        >
+          Eliminar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

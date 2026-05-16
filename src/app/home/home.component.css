@@ -1,0 +1,256 @@
+.contenedor-home {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 2rem;
+}
+
+h2 {
+  color: #0066cc;
+  margin-top: 0;
+  font-size: 1.3rem;
+}
+
+/* Mensajes */
+.mensaje {
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border-radius: 4px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.mensaje.exito {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.mensaje.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* Botones */
+.btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-agregar {
+  background-color: #0066cc;
+  color: white;
+  display: block;
+  margin: 0 auto 2rem;
+}
+
+.btn-agregar:hover:not(:disabled) {
+  background-color: #0052a3;
+  transform: translateY(-2px);
+}
+
+.btn-guardar {
+  background-color: #28a745;
+  color: white;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.btn-guardar:hover:not(:disabled) {
+  background-color: #218838;
+}
+
+.btn-eliminar {
+  background-color: #dc3545;
+  color: white;
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+}
+
+.btn-eliminar:hover:not(:disabled) {
+  background-color: #c82333;
+}
+
+/* Formulario */
+.formulario-meta {
+  background-color: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  border-left: 4px solid #0066cc;
+}
+
+.form-grupo {
+  margin-bottom: 1rem;
+}
+
+.form-grupo label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.form-grupo input,
+.form-grupo textarea,
+.form-grupo select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+  box-sizing: border-box;
+}
+
+.form-grupo input:focus,
+.form-grupo textarea:focus,
+.form-grupo select:focus {
+  outline: none;
+  border-color: #0066cc;
+  box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+}
+
+.form-fila {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+/* Lista de metas */
+.lista-metas {
+  margin-top: 2rem;
+}
+
+.estado {
+  text-align: center;
+  color: #666;
+  padding: 2rem;
+  font-size: 1.1rem;
+}
+
+.tarjeta-meta {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  border-left: 4px solid #999;
+}
+
+.tarjeta-meta:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.tarjeta-meta.prioridad-alta {
+  border-left-color: #dc3545;
+  background-color: #fff8f9;
+}
+
+.tarjeta-meta.prioridad-media {
+  border-left-color: #ffc107;
+  background-color: #fffbf0;
+}
+
+.tarjeta-meta.prioridad-baja {
+  border-left-color: #28a745;
+  background-color: #f8fdf9;
+}
+
+.meta-encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.meta-encabezado h3 {
+  margin: 0;
+  color: #333;
+  flex: 1;
+}
+
+.estado-badge {
+  padding: 0.35rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.estado-badge.estado-pendiente {
+  background-color: #e2e3e5;
+  color: #383d41;
+}
+
+.estado-badge.estado-en\ progreso {
+  background-color: #cfe2ff;
+  color: #084298;
+}
+
+.estado-badge.estado-completada {
+  background-color: #d1e7dd;
+  color: #0f5132;
+}
+
+.descripcion {
+  color: #666;
+  line-height: 1.5;
+  margin: 0.5rem 0 1rem;
+}
+
+.meta-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+  border-top: 1px solid #eee;
+}
+
+.prioridad {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.prioridad strong {
+  color: #333;
+  text-transform: capitalize;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .form-fila {
+    grid-template-columns: 1fr;
+  }
+
+  .meta-encabezado {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .meta-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+}

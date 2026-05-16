@@ -1,0 +1,29 @@
+.contenedor-about {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    height: 100%;
+    width: 100%;
+    padding: 2rem;
+}
+
+.contenedor-about > div{
+    box-sizing: border-box;
+    width: 100%;
+
+}
+
+.contenedor-about p{
+    font-size: 1.2rem;
+    color: #333;
+    line-height: 1.6;
+    margin-bottom: 0;
+}
+
+.contenedor-about img{
+    max-width: 25%;
+    height: auto;
+    margin-top: 1rem;
+}

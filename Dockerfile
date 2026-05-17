@@ -18,7 +18,7 @@ RUN mkdir -p src/environments && \
     "${API_KEY}" "${AUTH_DOMAIN}" "${PROJECT_ID}" "${STORAGE_BUCKET}" "${MESSAGING_SENDER_ID}" "${APP_ID}" > src/environments/environment.ts
 
 # Build Angular app
-RUN npm run build -- --output-path=dist
+RUN npm run build
 
 # Stage 2: Serve with Apache
 FROM httpd:2.4

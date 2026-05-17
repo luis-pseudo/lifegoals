@@ -13,6 +13,8 @@ RUN npm run build
 FROM httpd:2.4
 
 COPY --from=builder /app/dist/lifegoals/browser/ /usr/local/apache2/htdocs/
+RUN printf '%s\n' '<Directory "/usr/local/apache2/htdocs">' '  FallbackResource /index.html' '</Directory>' > /usr/local/apache2/conf/extra/spa.conf && \
+    printf '%s\n' 'Include conf/extra/spa.conf' >> /usr/local/apache2/conf/httpd.conf
 
 RUN cat > /usr/local/bin/docker-entrypoint.sh <<'EOF'
 #!/bin/sh

@@ -29,7 +29,16 @@ jobs:
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USER }}" --password-stdin
 
       - name: Build Docker image
-        run: docker build -t ${{ secrets.DOCKER_USER }}/lifegoals:latest .
+        run: |
+          docker build \
+            -t ${{ secrets.DOCKER_USER }}/lifegoals:${{ github.sha }} \
+            -t ${{ secrets.DOCKER_USER }}/lifegoals:latest \
+            .
 
-      - name: Push Docker image
-        run: docker push ${{ secrets.DOCKER_USER }}/lifegoals:latest
+      - name: Push Docker images
+        run: |
+          docker push ${{ secrets.DOCKER_USER }}/lifegoals:${{ github.sha }}
+          docker push ${{ secrets.DOCKER_USER }}/lifegoals:latest
+
+      - name: Trigger Render Deploy
+        run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}

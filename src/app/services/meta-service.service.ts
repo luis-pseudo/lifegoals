@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { from, Observable } from 'rxjs';
 import { Meta } from '../models/meta.model';
-import { environment } from '../../environments/environment';
 
 interface FirestoreValue {
   stringValue?: string;
@@ -13,13 +12,23 @@ interface FirestoreDocument {
   fields?: Record<string, FirestoreValue>;
 }
 
+interface RuntimeFirebaseConfig {
+  apiKey: string;
+  authDomain: string;
+  projectId: string;
+  storageBucket: string;
+  messagingSenderId: string;
+  appId: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class MetaService {
-  private readonly projectId = environment.firebase.projectId;
-  private readonly apiKey = environment.firebase.apiKey;
   private readonly collectionPath = 'metas';
+  private readonly firebaseConfig = this.getFirebaseConfig();
+  private readonly projectId = this.firebaseConfig.projectId;
+  private readonly apiKey = this.firebaseConfig.apiKey;
   private readonly baseUrl = `https://firestore.googleapis.com/v1/projects/${this.projectId}/databases/(default)/documents/${this.collectionPath}`;
 
   getMetas(): Observable<Meta[]> {
@@ -121,5 +130,20 @@ export class MetaService {
     if (!this.projectId || !this.apiKey) {
       throw new Error('Falta configurar Firebase en los archivos de environment.');
     }
+  }
+
+  private getFirebaseConfig(): RuntimeFirebaseConfig {
+    const runtimeConfig = (globalThis as typeof globalThis & {
+      __env?: Partial<RuntimeFirebaseConfig>;
+    }).__env;
+
+    return {
+      apiKey: runtimeConfig?.apiKey ?? '',
+      authDomain: runtimeConfig?.authDomain ?? '',
+      projectId: runtimeConfig?.projectId ?? '',
+      storageBucket: runtimeConfig?.storageBucket ?? '',
+      messagingSenderId: runtimeConfig?.messagingSenderId ?? '',
+      appId: runtimeConfig?.appId ?? ''
+    };
   }
 }
